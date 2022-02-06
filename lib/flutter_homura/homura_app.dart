@@ -33,9 +33,7 @@ class _HomuraAppState extends State<HomuraApp> {
     return homura.onFire
         ? widget.child
         : FutureBuilder(
-            future: homura.fire(
-              facebookConfig: widget.facebookConfig,
-            ),
+            future: homura.fire(),
             builder: (context, AsyncSnapshot<bool> snapshot) {
               if (snapshot.hasData) {
                 return widget.child;

@@ -3,7 +3,7 @@ import 'package:flutter_homura/display_auth_info.dart';
 import 'package:flutter_homura/display_user_data.dart';
 import 'package:flutter_homura/flutter_homura/flutter_homura.dart';
 import 'package:flutter_homura/flutter_homura/user_data.dart';
-import 'package:flutter_homura/not-loggedin.dart';
+import 'package:flutter_homura/not_loggedin.dart';
 
 class UserPage extends StatefulWidget {
   const UserPage({Key? key}) : super(key: key);
