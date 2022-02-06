@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_homura/flutter_homura/flutter_homura.dart';
+import 'flutter_homura.dart';
 
 class HomuraApp extends StatefulWidget {
   final Widget child;

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_homura/demo/login_form.dart';
+import 'package:flutter_homura/demo/user_page.dart';
 import 'package:flutter_homura/flutter_homura/homura_app.dart';
-import 'package:flutter_homura/login_form.dart';
-import 'package:flutter_homura/user_page.dart';
 
 void main() {
   runApp(const MyApp());

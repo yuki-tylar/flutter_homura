@@ -1,5 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_homura/flutter_homura/enum.dart';
+import 'enum.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class UserData {

@@ -1,9 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
-import 'package:flutter_homura/flutter_homura/enum.dart';
-import 'package:flutter_homura/flutter_homura/user_data.dart';
-import 'package:flutter_homura/homura_config.dart';
+import 'enum.dart';
+import 'user_data.dart';
+import '/homura_config.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
