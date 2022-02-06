@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:flutter_homura/flutter_homura/enum.dart';
 import 'package:flutter_homura/flutter_homura/user_data.dart';
+import 'package:flutter_homura/homura_config.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
@@ -15,8 +16,6 @@ class Homura {
 
   static Homura instance = Homura._();
   static Homura i = Homura._();
-
-  Map? _fbConfig;
 
   bool get onFire {
     return Firebase.apps.isNotEmpty;
@@ -46,15 +45,15 @@ class Homura {
             0;
   }
 
-  Future<bool> fire({Map? facebookConfig}) async {
+  Future<bool> fire() async {
     if (kIsWeb) {
-      _fbConfig = facebookConfig;
-      if (_fbConfig != null && !_authFB.isWebSdkInitialized) {
+      var config = homuraConfig['facebookConfig'];
+      if (config != null && !_authFB.isWebSdkInitialized) {
         _authFB.webInitialize(
-          appId: _fbConfig!['appId'],
-          cookie: _fbConfig!['cookie'],
-          xfbml: _fbConfig!['xfbml'],
-          version: _fbConfig!['version'],
+          appId: config!['appId'],
+          cookie: config!['cookie'],
+          xfbml: config!['xfbml'],
+          version: config!['version'],
         );
       }
     }
@@ -247,11 +246,11 @@ Future<UserData> _signUpWithPassword(String email, String password) async {
       case 'invalid-email':
         throw HomuraError.emailInvalid;
       default:
-        print(error.code);
+        // print(error.code);
         throw HomuraError.unknown;
     }
   } catch (error) {
-    print(error);
+    // print(error);
     throw HomuraError.unknown;
   }
 }
@@ -300,7 +299,7 @@ Future<Map<_AuthDataItem, dynamic>> _loginToGoogle() async {
   try {
     account = await _authGoogle.signIn();
   } catch (error) {
-    print(error);
+    // print(error);
     throw (HomuraError.googleLoginFailed);
   }
 

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_homura/flutter_homura/flutter_homura.dart';
 import 'package:flutter_homura/flutter_homura/enum.dart';
-import 'package:flutter_homura/flutter_homura/homura_app.dart';
 import 'package:flutter_homura/flutter_homura/user_data.dart';
 
 class LoginForm extends StatelessWidget {

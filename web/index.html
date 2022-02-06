@@ -2,19 +2,6 @@
 <html>
 
 <head>
-  <!--
-    If you are serving your web app in a path other than the root, change the
-    href value below to reflect the base path you are serving from.
-
-    The path provided below has to start and end with a slash "/" in order for
-    it to work correctly.
-
-    For more details:
-    * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
-
-    This is a placeholder for base href that will be replaced by the value of
-    the `--base-href` argument provided to `flutter build`.
-  -->
   <base href="$FLUTTER_BASE_HREF">
 
   <meta charset="UTF-8">
@@ -35,13 +22,11 @@
 </head>
 
 <body>
+  <!-- homura firebase@8.10.0 -->
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
-
-  <meta name="google-signin-client_id"
-    content="661989225903-97og1ds505tgk1eqqq220gmi3lcoi2b5.apps.googleusercontent.com">
+  <meta name="google-signin-client_id" content="661989225903-97og1ds505tgk1eqqq220gmi3lcoi2b5.apps.googleusercontent.com">
   <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
-
   <script>
     const firebaseConfig = {
       apiKey: "AIzaSyCgp2UvDjoejiFCvN2PHHW5f03Z7mwKfJo",
@@ -50,12 +35,12 @@
       storageBucket: "flutter-homura-test.appspot.com",
       messagingSenderId: "661989225903",
       appId: "1:661989225903:web:6dce0fa0e4d11386616b5a",
-      measurementId: "G-0GC5PQHBCG"
+      measurementId: "G-0GC5PQHBCG",
     };
-
-    // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
   </script>
+  <!-- homura end -->
+
   <!-- This script installs service_worker.js to provide PWA functionality to
        application. For more information, see:
        https://developers.google.com/web/fundamentals/primers/service-workers -->

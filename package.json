@@ -1,0 +1,18 @@
+{
+  "name": "flutter_homura",
+  "version": "1.0.0",
+  "description": "A new Flutter project.",
+  "scripts": {
+    "serve:web": "zsh tool/serve-web.sh"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yuki-tylar/flutter_homura.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yuki-tylar/flutter_homura/issues"
+  },
+  "homepage": "https://github.com/yuki-tylar/flutter_homura#readme"
+}
