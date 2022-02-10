@@ -17,7 +17,8 @@ enum HomuraError {
   emailAlreadyVerified,
 
   googleLoginFailed,
-  facebookLoginFaild,
+  facebookLoginFailed,
+  facebookLoginGetAccessTokenFailed,
   connectFailed,
   disconnectFailed,
   needAtLeastOneProvider,

@@ -59,8 +59,22 @@
       <key>CFBundleURLSchemes</key>
       <array>
         <string>com.googleusercontent.apps.1003220743691-u09ttukcn2obksn680bt51upopmkbh4t</string>
+        <string>fb1139752049798678</string>
       </array>
     </dict>
+  </array>
+  <key>FacebookAppID</key>
+  <string>1139752049798678</string>
+  <key>FacebookClientToken</key>
+  <string>37c863c02adf7fc22a3938b4bd56cde3</string>
+  <key>FacebookDisplayName</key>
+  <string>flutter homura test</string>
+  <key>LSApplicationQueriesSchemes</key>
+  <array>
+    <string>fbapi</string>
+    <string>fb-messenger-share-api</string>
+    <string>fbauth2</string>
+    <string>fbshareextension</string>
   </array>
   <!-- homura section end -->
 </dict>

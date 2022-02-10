@@ -4,7 +4,7 @@
   "description": "A new Flutter project.",
   "scripts": {
     "homura-init": "zsh tools/scripts/homura_init.sh",
-    "homura-fire:web": "zsh tools/scripts/homura_serve_web.sh",
+    "homura-fire:web": "zsh tools/scripts/homura_serve_web.sh"
   },
   "repository": {
     "type": "git",
