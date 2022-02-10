@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "A new Flutter project.",
   "scripts": {
-    "serve:web": "zsh tool/serve-web.sh"
+    "homura-init": "zsh tools/scripts/homura_init.sh",
+    "homura-fire:web": "zsh tools/scripts/homura_serve_web.sh",
   },
   "repository": {
     "type": "git",

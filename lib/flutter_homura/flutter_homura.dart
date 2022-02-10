@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:flutter_homura/firebase_options.dart';
 import 'enum.dart';
 import 'user_data.dart';
 import '/homura_config.dart';
@@ -47,22 +48,36 @@ class Homura {
 
   Future<bool> fire() async {
     if (kIsWeb) {
-      var config = homuraConfig['facebookConfig'];
-      if (config != null && !_authFB.isWebSdkInitialized) {
+      var config = homuraConfig.signinFacebook;
+      if (config.enabled && !_authFB.isWebSdkInitialized) {
         _authFB.webInitialize(
-          appId: config!['appId'],
-          cookie: config!['cookie'],
-          xfbml: config!['xfbml'],
-          version: config!['version'],
+          appId: config.appId,
+          cookie: config.cookie,
+          xfbml: config.xfbml,
+          version: config.version,
         );
       }
     }
-    try {
-      await Firebase.initializeApp();
-      return true;
-    } catch (e) {
-      throw HomuraError.notInitialized;
+
+    if (Firebase.apps.isEmpty) {
+      try {
+        await Firebase.initializeApp(
+          options: DefaultFirebaseOptions.currentPlatform,
+        );
+        return true;
+      } on FirebaseException catch (e) {
+        if (RegExp(r'core/duplicate-app').hasMatch(e.toString())) {
+          return true;
+        } else {
+          throw HomuraError.notInitialized;
+        }
+      } catch (_) {
+        throw HomuraError.notInitialized;
+      }
+    } else {
+      Firebase.app();
     }
+    return true;
   }
 
   void signOut() {
@@ -299,7 +314,7 @@ Future<Map<_AuthDataItem, dynamic>> _loginToGoogle() async {
   try {
     account = await _authGoogle.signIn();
   } catch (error) {
-    // print(error);
+    print(error);
     throw (HomuraError.googleLoginFailed);
   }
 
