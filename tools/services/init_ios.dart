@@ -27,29 +27,37 @@ Future<void> initInfo() async {
   var config = '';
   if (homuraConfig.signinGoogle.enabled ||
       homuraConfig.signinFacebook.enabled) {
-    var configOpen = (''
+    config = (''
         '  <!-- homura section start -->\n'
         '  <key>CFBundleURLTypes</key>\n'
         '  <array>\n'
-        '');
-    var configGoogle = homuraConfig.signinGoogle.enabled
-        ? (''
-            '    <dict>\n'
-            '      <key>CFBundleTypeRole</key>\n'
-            '      <string>Editor</string>\n'
-            '      <key>CFBundleURLSchemes</key>\n'
-            '      <array>\n'
-            '        <string>${getReversedId(option['iosClientId'])}</string>\n'
-            '      </array>\n'
-            '    </dict>\n'
-            '')
-        : '';
-    var configFacebook = homuraConfig.signinFacebook.enabled ? ('''''') : '';
-    var configClose = (''
+        '    <dict>\n'
+        '      <key>CFBundleTypeRole</key>\n'
+        '      <string>Editor</string>\n'
+        '      <key>CFBundleURLSchemes</key>\n'
+        '      <array>\n'
+        '${homuraConfig.signinGoogle.enabled ? '        <string>${getReversedId(option['iosClientId'])}</string>\n' : ''}'
+        '${homuraConfig.signinFacebook.enabled ? '        <string>fb${homuraConfig.signinFacebook.appId}</string>\n' : ''}'
+        '      </array>\n'
+        '    </dict>\n'
         '  </array>\n'
+        '${homuraConfig.signinFacebook.enabled ? (''
+            '  <key>FacebookAppID</key>\n'
+            '  <string>${homuraConfig.signinFacebook.appId}</string>\n'
+            '  <key>FacebookClientToken</key>\n'
+            '  <string>${homuraConfig.signinFacebook.clientToken}</string>\n'
+            '  <key>FacebookDisplayName</key>\n'
+            '  <string>${homuraConfig.signinFacebook.appName}</string>\n'
+            '  <key>LSApplicationQueriesSchemes</key>\n'
+            '  <array>\n'
+            '    <string>fbapi</string>\n'
+            '    <string>fb-messenger-share-api</string>\n'
+            '    <string>fbauth2</string>\n'
+            '    <string>fbshareextension</string>\n'
+            '  </array>\n'
+            '') : ''}'
         '  <!-- homura section end -->\n'
         '');
-    config = configOpen + configGoogle + configFacebook + configClose;
   }
 
   var contents = File(original).readAsStringSync();

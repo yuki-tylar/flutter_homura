@@ -6,8 +6,10 @@ final homuraConfig = HomuraConfig(
         '1003220743691-k3mpmea3ns1feprkgt541obh6cfbbkmm.apps.googleusercontent.com',
   ),
   signinFacebook: FacebookSigninConfig(
+    appName: 'flutter homura test',
     appId: '1139752049798678',
     version: 'v12.0',
+    clientToken: '37c863c02adf7fc22a3938b4bd56cde3',
   ),
 );
 
@@ -49,12 +51,16 @@ class GoogleSigninConfig extends OAuthSigninConfig {
 
 class FacebookSigninConfig extends OAuthSigninConfig {
   String appId;
+  String appName;
+  String clientToken;
   String version;
   bool cookie;
   bool xfbml;
 
   FacebookSigninConfig({
     this.appId = '',
+    this.appName = '',
+    this.clientToken = '',
     this.version = '',
     this.cookie = true,
     this.xfbml = true,
@@ -64,7 +70,10 @@ class FacebookSigninConfig extends OAuthSigninConfig {
           provider: AuthWith.facebook,
         ) {
     if (enabled) {
-      if (appId.isEmpty || version.isEmpty) {
+      if (appId.isEmpty ||
+          version.isEmpty ||
+          appName.isEmpty ||
+          clientToken.isEmpty) {
         throw 'facebook-signin-config-initilize-failed';
       }
     }

@@ -297,10 +297,13 @@ Future<UserData> _signInWithFacebook() async {
       case 'account-exists-with-different-credential':
         throw HomuraError.emailAlreadyInUse;
       default:
-        throw HomuraError.facebookLoginFaild;
+        print(error);
+
+        throw HomuraError.facebookLoginFailed;
     }
   } catch (error) {
-    throw HomuraError.facebookLoginFaild;
+    print(error);
+    throw HomuraError.facebookLoginFailed;
   }
 
   return UserData.fromFacebook(
@@ -342,7 +345,11 @@ Future<Map<_AuthDataItem, dynamic>> _loginToFacebook() async {
     loginResult = await _authFB.login();
     userData = await _authFB.getUserData();
   } catch (error) {
-    throw (HomuraError.facebookLoginFaild);
+    throw HomuraError.facebookLoginFailed;
+  }
+
+  if (loginResult.accessToken == null) {
+    throw HomuraError.facebookLoginGetAccessTokenFailed;
   }
 
   var credential =
