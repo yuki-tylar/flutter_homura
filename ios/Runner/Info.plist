@@ -41,7 +41,27 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>LSApplicationCategoryType</key>
+	<string></string>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<true/>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+  	<key>NSAllowsLocalNetworking</key>
+  	<true/>
+	</dict>
+  <!-- homura section start -->
+  <key>CFBundleURLTypes</key>
+  <array>
+    <dict>
+      <key>CFBundleTypeRole</key>
+      <string>Editor</string>
+      <key>CFBundleURLSchemes</key>
+      <array>
+        <string>com.googleusercontent.apps.1003220743691-u09ttukcn2obksn680bt51upopmkbh4t</string>
+      </array>
+    </dict>
+  </array>
+  <!-- homura section end -->
 </dict>
 </plist>
