@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_homura/flutter_homura/user_data.dart';
+import 'package:homura/flutter_homura/user_data.dart';
 
 class DisplayUserData extends StatelessWidget {
   final UserData userData;

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_homura/flutter_homura/enum.dart';
-import 'package:flutter_homura/flutter_homura/flutter_homura.dart';
+import 'package:homura/flutter_homura/enum.dart';
+import 'package:homura/flutter_homura/flutter_homura.dart';
 
 class DisplayAuthInfoPassword extends StatefulWidget {
   const DisplayAuthInfoPassword({Key? key}) : super(key: key);

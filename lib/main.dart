@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_homura/demo/login_form.dart';
-import 'package:flutter_homura/demo/user_page.dart';
-import 'package:flutter_homura/flutter_homura/homura_app.dart';
+import 'package:homura/demo/login_form.dart';
+import 'package:homura/demo/user_page.dart';
+import 'package:homura/flutter_homura/homura_app.dart';
+import 'package:homura/flutter_homura/homura_config.dart';
+import 'package:homura/homura_config.dart';
 
 void main() {
   runApp(const MyApp());
@@ -13,6 +15,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return HomuraApp(
+      config: homuraConfig,
       child: MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(

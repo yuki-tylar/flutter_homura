@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:colorize/colorize.dart';
-import 'package:flutter_homura/homura_config.dart';
+import 'package:homura/homura_config.dart';
 
 import '_generate_random_string.dart';
 import '_get_firebase_options.dart';

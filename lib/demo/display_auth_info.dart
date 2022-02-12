@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_homura/demo/display_auth_info_oauth.dart';
-import 'package:flutter_homura/demo/display_auth_info_password.dart';
-import 'package:flutter_homura/demo/display_auth_info_verification.dart';
-import 'package:flutter_homura/flutter_homura/enum.dart';
+import 'package:homura/demo/display_auth_info_oauth.dart';
+import 'package:homura/demo/display_auth_info_password.dart';
+import 'package:homura/demo/display_auth_info_verification.dart';
+import 'package:homura/flutter_homura/enum.dart';
 
 class DisplayAuthInfo extends StatelessWidget {
   const DisplayAuthInfo({Key? key}) : super(key: key);

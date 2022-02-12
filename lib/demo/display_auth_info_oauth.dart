@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_homura/flutter_homura/enum.dart';
-
-import 'package:flutter_homura/flutter_homura/flutter_homura.dart';
+import 'package:homura/flutter_homura/enum.dart';
+import 'package:homura/flutter_homura/flutter_homura.dart';
 
 class DisplayAuthInfoOAuth extends StatefulWidget {
   final AuthWith authWith;

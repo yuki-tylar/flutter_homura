@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_homura/flutter_homura/flutter_homura.dart';
-import 'package:flutter_homura/flutter_homura/enum.dart';
-import 'package:flutter_homura/flutter_homura/user_data.dart';
+import 'package:homura/flutter_homura/enum.dart';
+import 'package:homura/flutter_homura/flutter_homura.dart';
+import 'package:homura/flutter_homura/user_data.dart';
 
 class LoginForm extends StatelessWidget {
   const LoginForm({Key? key}) : super(key: key);

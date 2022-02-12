@@ -1,6 +1,5 @@
 import 'dart:io';
-import 'package:flutter_homura/flutter_homura/enum.dart';
-import 'package:flutter_homura/homura_config.dart';
+import 'package:homura/homura_config.dart';
 
 import '_get_firebase_options.dart';
 

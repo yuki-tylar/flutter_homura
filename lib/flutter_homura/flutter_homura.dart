@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:homura/flutter_homura/homura_config.dart';
 import 'enum.dart';
 import 'user_data.dart';
 import '/homura_config.dart';
@@ -46,15 +47,15 @@ class Homura {
             0;
   }
 
-  Future<bool> fire() async {
+  Future<bool> fire(HomuraConfig config) async {
     if (kIsWeb) {
-      var config = homuraConfig.signinFacebook;
-      if (config.enabled && !_authFB.isWebSdkInitialized) {
+      var fb = config.signinFacebook;
+      if (fb.enabled && !_authFB.isWebSdkInitialized) {
         _authFB.webInitialize(
-          appId: config.appId,
-          cookie: config.cookie,
-          xfbml: config.xfbml,
-          version: config.version,
+          appId: fb.appId,
+          cookie: fb.cookie,
+          xfbml: fb.xfbml,
+          version: fb.version,
         );
       }
     }

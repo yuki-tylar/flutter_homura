@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
-import 'flutter_homura.dart';
+import 'package:homura/flutter_homura/flutter_homura.dart';
+import 'package:homura/flutter_homura/homura_config.dart';
 
 class HomuraApp extends StatefulWidget {
   final Widget child;
   final Widget? childBeforeInitialized;
   final Widget? childOnError;
   final Map? facebookConfig;
+  final HomuraConfig config;
 
   const HomuraApp({
     Key? key,
@@ -13,6 +15,7 @@ class HomuraApp extends StatefulWidget {
     this.childBeforeInitialized,
     this.childOnError,
     this.facebookConfig,
+    required this.config,
   }) : super(key: key);
 
   @override
@@ -35,7 +38,7 @@ class _HomuraAppState extends State<HomuraApp> {
         child: homura.onFire
             ? widget.child
             : FutureBuilder(
-                future: homura.fire(),
+                future: homura.fire(widget.config),
                 builder: (context, AsyncSnapshot<bool> snapshot) {
                   if (snapshot.hasData) {
                     return widget.child;
