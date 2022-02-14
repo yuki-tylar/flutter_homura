@@ -6,7 +6,6 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:homura/flutter_homura/homura_config.dart';
 import 'enum.dart';
 import 'user_data.dart';
-import '/homura_config.dart';
 import '../firebase_options.dart';
 
 final _auth = FirebaseAuth.instance;
@@ -89,12 +88,17 @@ class Homura {
 
   Future<UserData> signInWith(
     AuthWith signInWith, {
-    String email = '',
-    String password = '',
+    String? email,
+    String? password,
   }) async {
     late Future<UserData> req;
     switch (signInWith) {
       case AuthWith.password:
+        if (email == null) {
+          throw HomuraError.emailEmpty;
+        } else if (password == null) {
+          throw HomuraError.passwordEmpty;
+        }
         req = _signInWithPassword(email, password);
         break;
       case AuthWith.google:
@@ -112,12 +116,17 @@ class Homura {
 
   Future<UserData> signUpWith(
     AuthWith signUpWith, {
-    String email = '',
-    String password = '',
+    String? email,
+    String? password,
   }) async {
     late Future<UserData> req;
     switch (signUpWith) {
       case AuthWith.password:
+        if (email == null) {
+          throw HomuraError.emailEmpty;
+        } else if (password == null) {
+          throw HomuraError.passwordEmpty;
+        }
         req = _signUpWithPassword(email, password);
         break;
       default:
