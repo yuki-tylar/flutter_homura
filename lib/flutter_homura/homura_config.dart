@@ -7,8 +7,8 @@ class HomuraConfig {
 
   HomuraConfig({
     this.firebaseVersion = '8.10.0',
-    signinGoogle,
-    signinFacebook,
+    GoogleSigninConfig? signinGoogle,
+    FacebookSigninConfig? signinFacebook,
   }) {
     this.signinGoogle = signinGoogle ??
         GoogleSigninConfig(

@@ -30,9 +30,10 @@ dependencies:
   flutter:
     sdk: flutter
   
-  firebase_core: ^1.6.0
-  firebase_auth: ^3.1.0
-  cloud_firestore: ^2.5.1
+  firebase_core: ^1.13.1
+  firebase_auth: ^3.3.9
+  cloud_firestore: ^3.1.10
+  firebase_storage: ^10.2.9
   flutter_facebook_auth: ^4.0.1
   google_sign_in: ^5.0.4
   colorize: any
@@ -45,6 +46,10 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  mockito: ^5.1.0
+  build_runner: ^2.1.7
+  firebase_auth_mocks: ^0.8.2
+  google_sign_in_mocks: ^0.2.1
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
