@@ -26,6 +26,8 @@ enum HomuraError {
   userNotFound,
   userNotSignedIn,
 
+  getFileURLFailed,
+
   notInitialized,
   unknown,
 

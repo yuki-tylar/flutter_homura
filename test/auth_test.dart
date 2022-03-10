@@ -11,19 +11,18 @@ import 'package:google_sign_in_mocks/google_sign_in_mocks.dart';
 import 'package:homura/flutter_homura/enum.dart';
 import 'package:homura/flutter_homura/flutter_homura.dart';
 import 'package:homura/flutter_homura/homura_config.dart';
-
 import 'firebase_mock.dart';
 
-void main() {
-  var mockUser = MockUser(
-    uid: 'TestUID',
-    email: 'test@gmail.com',
-    displayName: 'TestName',
-  );
-  var firebaseAuth = MockFirebaseAuth(mockUser: mockUser);
-  var googleAuth = MockGoogleSignIn();
-  var mockConfig = HomuraConfig();
+var mockUser = MockUser(
+  uid: 'TestUID',
+  email: 'test@gmail.com',
+  displayName: 'TestName',
+);
+var firebaseAuth = MockFirebaseAuth(mockUser: mockUser);
+var googleAuth = MockGoogleSignIn();
+var mockConfig = HomuraConfig();
 
+void main() {
   group('Signin by password before initialization', () {
     setUpAll(() async {
       setupFirebaseAuthMocks();

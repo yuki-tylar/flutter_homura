@@ -1,8 +1,11 @@
+import 'dart:async';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:flutter/foundation.dart' show debugPrint, kIsWeb;
 import 'package:homura/flutter_homura/homura_config.dart';
 import 'enum.dart';
 import 'user_data.dart';
@@ -17,7 +20,9 @@ class Homura {
   static Homura i = Homura._();
 
   late FirebaseAuth _auth = FirebaseAuth.instance;
-  late GoogleSignIn _authGoogle = GoogleSignIn();
+  late GoogleSignIn _authGoogle = GoogleSignIn();å
+  late FirebaseStorage _storage = FirebaseStorage.instance;
+  final Map<String, String> _fileURLCache = {};
 
   bool get onFire => Firebase.apps.isNotEmpty;
 
@@ -49,9 +54,11 @@ class Homura {
     HomuraConfig config, {
     FirebaseAuth? firebaseAuthInstance,
     GoogleSignIn? googleSignIn,
+    FirebaseStorage? storage,
   }) async {
     if (firebaseAuthInstance != null) _auth = firebaseAuthInstance;
     if (googleSignIn != null) _authGoogle = googleSignIn;
+    if (storage != null) _storage = storage;
 
     if (kIsWeb) {
       var fb = config.signinFacebook;
@@ -78,6 +85,7 @@ class Homura {
           throw HomuraError.notInitialized;
         }
       } catch (_) {
+        print(_);
         throw HomuraError.notInitialized;
       }
     } else {
@@ -210,6 +218,22 @@ class Homura {
     } else {
       await _auth.sendPasswordResetEmail(email: currentUser!.email!);
     }
+  }
+
+  FutureOr<String?> getFileURL(String? image) {
+    if (image == null || image.isEmpty) return null;
+    if (image.startsWith('http')) return image;
+    if (_fileURLCache[image] != null) return _fileURLCache[image];
+
+    return _storage.ref(image).getDownloadURL().then((String res) {
+      _fileURLCache[image] = res;
+      return res;
+    }).onError((error, stackTrace) {
+      debugPrint('warning: could not get downloadURL.\n'
+          'errcode: HOMURA_GFU_01\n'
+          '$error');
+      throw HomuraError.getFileURLFailed;
+    });
   }
 
   _signInWithApple() {
