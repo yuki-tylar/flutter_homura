@@ -20,7 +20,7 @@ class Homura {
   static Homura i = Homura._();
 
   late FirebaseAuth _auth = FirebaseAuth.instance;
-  late GoogleSignIn _authGoogle = GoogleSignIn();å
+  late GoogleSignIn _authGoogle = GoogleSignIn();
   late FirebaseStorage _storage = FirebaseStorage.instance;
   final Map<String, String> _fileURLCache = {};
 
