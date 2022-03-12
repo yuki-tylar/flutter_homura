@@ -84,8 +84,11 @@ class Homura {
         } else {
           throw HomuraError.notInitialized;
         }
-      } catch (_) {
-        print(_);
+      } catch (error) {
+        debugPrint(''
+            'Fatal error: Could not initialized firebase by homura\n'
+            'errcode: HOMURA_FIRE_01\n'
+            '$error');
         throw HomuraError.notInitialized;
       }
     } else {
@@ -235,13 +238,6 @@ class Homura {
       throw HomuraError.getFileURLFailed;
     });
   }
-
-  _signInWithApple() {
-    //if loggingIn done --> authenticate()
-    // if true --> return userdata;
-    // if false --> _createUserData();
-    //if not --> throw error;
-  }
 }
 
 Future<UserData> _signInWithPassword(
@@ -350,12 +346,18 @@ Future<UserData> _signInWithFacebook(FirebaseAuth auth) async {
       case 'account-exists-with-different-credential':
         throw HomuraError.emailAlreadyInUse;
       default:
-        print(error);
-
+        debugPrint(''
+            'Could not signin with facebook.\n'
+            'errcode: HOMURA_SIWF_01\n'
+            '$error');
         throw HomuraError.facebookLoginFailed;
     }
   } catch (error) {
-    print(error);
+    debugPrint(''
+        'Could not signin with facebook.\n'
+        'errcode: HOMURA_SIWF_02\n'
+        '$error');
+
     throw HomuraError.facebookLoginFailed;
   }
 
@@ -372,7 +374,9 @@ Future<Map<_AuthDataItem, dynamic>> _loginToGoogle(
   try {
     account = await authGoogle.signIn();
   } catch (error) {
-    print(error);
+    debugPrint(''
+        'Warning: Could not loginin to google\n'
+        'errcode: HOMURA_LTG_01');
     throw (HomuraError.googleLoginFailed);
   }
 

@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:homura/homura_config.dart';
 
 import '_get_firebase_options.dart';
@@ -38,7 +39,7 @@ bool isFirebaseVersionMatched(String contents) {
 Future<String> getHomuraConfig() async {
   var option = await getFirebaseOption(FirebaseOptionType.web);
 
-  print(option.entries
+  debugPrint(option.entries
       .map((e) => '${e.key}: "${e.value}",\n')
       .toList()
       .toString());
