@@ -7,17 +7,12 @@ class HomuraConfig {
 
   HomuraConfig({
     this.firebaseVersion = '8.10.0',
-    signinGoogle,
-    signinFacebook,
+    GoogleSigninConfig? signinGoogle,
+    FacebookSigninConfig? signinFacebook,
   }) {
-    this.signinGoogle = signinGoogle ??
-        GoogleSigninConfig(
-          enabled: false,
-        );
-    this.signinFacebook = signinFacebook ??
-        FacebookSigninConfig(
-          enabled: false,
-        );
+    this.signinGoogle = signinGoogle ?? GoogleSigninConfig(enabled: false);
+    this.signinFacebook =
+        signinFacebook ?? FacebookSigninConfig(enabled: false);
   }
 }
 
@@ -52,16 +47,13 @@ class FacebookSigninConfig extends OAuthSigninConfig {
     this.cookie = true,
     this.xfbml = true,
     enabled = true,
-  }) : super(
-          enabled: enabled,
-          provider: AuthWith.facebook,
-        ) {
+  }) : super(enabled: enabled, provider: AuthWith.facebook) {
     if (enabled) {
       if (appId.isEmpty ||
           version.isEmpty ||
           appName.isEmpty ||
           clientToken.isEmpty) {
-        throw 'facebook-signin-config-initilize-failed';
+        throw HomuraError.facebookSigninConfigInitializeFailed;
       }
     }
   }

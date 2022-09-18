@@ -26,7 +26,10 @@ enum HomuraError {
   userNotFound,
   userNotSignedIn,
 
+  getFileURLFailed,
+
   notInitialized,
+  facebookSigninConfigInitializeFailed,
   unknown,
 
   notReadyYet,

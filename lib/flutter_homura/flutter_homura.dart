@@ -1,15 +1,16 @@
+import 'dart:async';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:flutter/foundation.dart' show debugPrint, kIsWeb;
 import 'package:homura/flutter_homura/homura_config.dart';
 import 'enum.dart';
 import 'user_data.dart';
 import '../firebase_options.dart';
 
-final _auth = FirebaseAuth.instance;
-final _authGoogle = GoogleSignIn();
 final _authFB = FacebookAuth.instance;
 
 class Homura {
@@ -18,9 +19,12 @@ class Homura {
   static Homura instance = Homura._();
   static Homura i = Homura._();
 
-  bool get onFire {
-    return Firebase.apps.isNotEmpty;
-  }
+  late FirebaseAuth _auth = FirebaseAuth.instance;
+  late GoogleSignIn _authGoogle = GoogleSignIn();
+  late FirebaseStorage _storage = FirebaseStorage.instance;
+  final Map<String, String> _fileURLCache = {};
+
+  bool get onFire => Firebase.apps.isNotEmpty;
 
   bool get signedIn {
     return _auth.currentUser != null;
@@ -46,7 +50,16 @@ class Homura {
             0;
   }
 
-  Future<bool> fire(HomuraConfig config) async {
+  Future<bool> fire(
+    HomuraConfig config, {
+    FirebaseAuth? firebaseAuthInstance,
+    GoogleSignIn? googleSignIn,
+    FirebaseStorage? storage,
+  }) async {
+    if (firebaseAuthInstance != null) _auth = firebaseAuthInstance;
+    if (googleSignIn != null) _authGoogle = googleSignIn;
+    if (storage != null) _storage = storage;
+
     if (kIsWeb) {
       var fb = config.signinFacebook;
       if (fb.enabled && !_authFB.isWebSdkInitialized) {
@@ -71,7 +84,11 @@ class Homura {
         } else {
           throw HomuraError.notInitialized;
         }
-      } catch (_) {
+      } catch (error) {
+        debugPrint(''
+            'Fatal error: Could not initialized firebase by homura\n'
+            'errcode: HOMURA_FIRE_01\n'
+            '$error');
         throw HomuraError.notInitialized;
       }
     } else {
@@ -99,19 +116,19 @@ class Homura {
         } else if (password == null) {
           throw HomuraError.passwordEmpty;
         }
-        req = _signInWithPassword(email, password);
+        req = _signInWithPassword(_auth, email, password);
         break;
       case AuthWith.google:
-        req = _signInWithGoogle();
+        req = _signInWithGoogle(_auth, _authGoogle);
         break;
       case AuthWith.facebook:
-        req = _signInWithFacebook();
+        req = _signInWithFacebook(_auth);
         break;
       case AuthWith.apple:
         throw HomuraError.notReadyYet;
     }
 
-    return req;
+    return await req;
   }
 
   Future<UserData> signUpWith(
@@ -127,7 +144,7 @@ class Homura {
         } else if (password == null) {
           throw HomuraError.passwordEmpty;
         }
-        req = _signUpWithPassword(email, password);
+        req = _signUpWithPassword(_auth, email, password);
         break;
       default:
         req = signInWith(signUpWith);
@@ -144,7 +161,7 @@ class Homura {
     late Future<Map<_AuthDataItem, dynamic>> req;
     switch (to) {
       case AuthWith.google:
-        req = _loginToGoogle();
+        req = _loginToGoogle(_authGoogle);
         break;
       case AuthWith.facebook:
         req = _loginToFacebook();
@@ -206,23 +223,38 @@ class Homura {
     }
   }
 
-  _signInWithApple() {
-    //if loggingIn done --> authenticate()
-    // if true --> return userdata;
-    // if false --> _createUserData();
-    //if not --> throw error;
+  FutureOr<String?> getFileURL(String? image) {
+    if (image == null || image.isEmpty) return null;
+    if (image.startsWith('http')) return image;
+    if (_fileURLCache[image] != null) return _fileURLCache[image];
+
+    return _storage.ref(image).getDownloadURL().then((String res) {
+      _fileURLCache[image] = res;
+      return res;
+    }).onError((error, stackTrace) {
+      debugPrint('warning: could not get downloadURL.\n'
+          'errcode: HOMURA_GFU_01\n'
+          '$error');
+      throw HomuraError.getFileURLFailed;
+    });
   }
 }
 
-Future<UserData> _signInWithPassword(String email, String password) async {
+Future<UserData> _signInWithPassword(
+  FirebaseAuth auth,
+  String email,
+  String password,
+) async {
   if (email.isEmpty) {
     throw HomuraError.emailEmpty;
   } else if (password.isEmpty) {
     throw HomuraError.passwordEmpty;
   }
   try {
-    var userCredential = await _auth.signInWithEmailAndPassword(
-        email: email, password: password);
+    var userCredential = await auth.signInWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
     if (userCredential.user != null) {
       return UserData.fromPassword(userCredential.user!);
     } else {
@@ -244,14 +276,18 @@ Future<UserData> _signInWithPassword(String email, String password) async {
   }
 }
 
-Future<UserData> _signUpWithPassword(String email, String password) async {
+Future<UserData> _signUpWithPassword(
+  FirebaseAuth auth,
+  String email,
+  String password,
+) async {
   if (email.isEmpty) {
     throw HomuraError.emailEmpty;
   } else if (password.isEmpty) {
     throw HomuraError.passwordEmpty;
   }
   try {
-    var result = await _auth.createUserWithEmailAndPassword(
+    var result = await auth.createUserWithEmailAndPassword(
       email: email,
       password: password,
     );
@@ -280,26 +316,29 @@ Future<UserData> _signUpWithPassword(String email, String password) async {
   }
 }
 
-Future<UserData> _signInWithGoogle() async {
+Future<UserData> _signInWithGoogle(
+  FirebaseAuth auth,
+  GoogleSignIn authGoogle,
+) async {
   Map<_AuthDataItem, dynamic> result;
   try {
-    result = await _loginToGoogle();
-    await _auth.signInWithCredential(result[_AuthDataItem.credential]);
+    result = await _loginToGoogle(authGoogle);
+    await auth.signInWithCredential(result[_AuthDataItem.credential]);
   } catch (error) {
     throw HomuraError.googleLoginFailed;
   }
 
   return UserData.fromGoogle(
-    _auth.currentUser!.uid,
+    auth.currentUser!.uid,
     result[_AuthDataItem.account],
   );
 }
 
-Future<UserData> _signInWithFacebook() async {
+Future<UserData> _signInWithFacebook(FirebaseAuth auth) async {
   Map<_AuthDataItem, dynamic> result;
   try {
     result = await _loginToFacebook();
-    await _auth.signInWithCredential(result['credential']);
+    await auth.signInWithCredential(result['credential']);
   } on HomuraError {
     rethrow;
   } on FirebaseException catch (error) {
@@ -307,27 +346,37 @@ Future<UserData> _signInWithFacebook() async {
       case 'account-exists-with-different-credential':
         throw HomuraError.emailAlreadyInUse;
       default:
-        print(error);
-
+        debugPrint(''
+            'Could not signin with facebook.\n'
+            'errcode: HOMURA_SIWF_01\n'
+            '$error');
         throw HomuraError.facebookLoginFailed;
     }
   } catch (error) {
-    print(error);
+    debugPrint(''
+        'Could not signin with facebook.\n'
+        'errcode: HOMURA_SIWF_02\n'
+        '$error');
+
     throw HomuraError.facebookLoginFailed;
   }
 
   return UserData.fromFacebook(
-    _auth.currentUser!.uid,
+    auth.currentUser!.uid,
     result['account'],
   );
 }
 
-Future<Map<_AuthDataItem, dynamic>> _loginToGoogle() async {
+Future<Map<_AuthDataItem, dynamic>> _loginToGoogle(
+  GoogleSignIn authGoogle,
+) async {
   GoogleSignInAccount? account;
   try {
-    account = await _authGoogle.signIn();
+    account = await authGoogle.signIn();
   } catch (error) {
-    print(error);
+    debugPrint(''
+        'Warning: Could not loginin to google\n'
+        'errcode: HOMURA_LTG_01');
     throw (HomuraError.googleLoginFailed);
   }
 

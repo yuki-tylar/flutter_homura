@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:homura/demo/login_form.dart';
 import 'package:homura/demo/user_page.dart';
 import 'package:homura/flutter_homura/homura_app.dart';
-import 'package:homura/flutter_homura/homura_config.dart';
 import 'package:homura/homura_config.dart';
 
 void main() {
