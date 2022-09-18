@@ -29,6 +29,7 @@ enum HomuraError {
   getFileURLFailed,
 
   notInitialized,
+  facebookSigninConfigInitializeFailed,
   unknown,
 
   notReadyYet,

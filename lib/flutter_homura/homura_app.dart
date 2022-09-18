@@ -34,23 +34,22 @@ class _HomuraAppState extends State<HomuraApp> {
     var homura = Homura.instance;
 
     return Directionality(
-        textDirection: TextDirection.ltr,
-        child: homura.onFire
-            ? widget.child
-            : FutureBuilder(
-                future: homura.fire(widget.config),
-                builder: (context, AsyncSnapshot<bool> snapshot) {
-                  if (snapshot.hasData) {
-                    return widget.child;
-                  } else if (snapshot.hasError) {
-                    return widget.childOnError ??
-                        const Center(
-                          child: Text('Error'),
-                        );
-                  } else {
-                    return widget.childBeforeInitialized ?? Container();
-                  }
-                },
-              ));
+      textDirection: TextDirection.ltr,
+      child: FutureBuilder(
+        future: homura.fire(widget.config),
+        builder: (context, AsyncSnapshot<bool> snapshot) {
+          if (snapshot.hasData) {
+            return widget.child;
+          } else if (snapshot.hasError) {
+            return widget.childOnError ??
+                const Center(
+                  child: Text('Error'),
+                );
+          } else {
+            return widget.childBeforeInitialized ?? Container();
+          }
+        },
+      ),
+    );
   }
 }
