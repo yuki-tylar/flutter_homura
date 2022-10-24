@@ -3,6 +3,7 @@ enum AuthWith {
   facebook,
   google,
   apple,
+  customToken,
 }
 
 enum HomuraError {
@@ -16,8 +17,11 @@ enum HomuraError {
   emailNotFound,
   emailAlreadyVerified,
 
+  customTokenEmpty,
+
   googleLoginFailed,
   facebookLoginFailed,
+  customTokenLoginFailed,
   facebookLoginGetAccessTokenFailed,
   connectFailed,
   disconnectFailed,
