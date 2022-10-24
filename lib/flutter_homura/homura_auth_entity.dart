@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:firebase_auth/firebase_auth.dart';
@@ -125,7 +126,11 @@ class HomuraAuthEntity {
     }
 
     try {
-      var response = await http.post(uri, body: {'token': idToken});
+      var response = await http.post(
+        uri,
+        body: jsonEncode({'token': idToken}),
+        headers: {'Content-Type': 'application/json'},
+      );
       if (response.statusCode == 200) {
         customToken = response.body;
       } else {
