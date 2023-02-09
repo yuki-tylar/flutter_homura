@@ -31,7 +31,7 @@ class HomuraAuthEntity {
     // TODO: add facebookAuth
   }
 
-  void signOut() async {
+  Future<void> signOut() async {
     await Future.wait([
       _googleSignin.signOut(),
       _firebaseAuth.signOut(),
