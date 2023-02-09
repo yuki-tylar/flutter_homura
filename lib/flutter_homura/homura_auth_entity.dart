@@ -31,9 +31,11 @@ class HomuraAuthEntity {
     // TODO: add facebookAuth
   }
 
-  void signOut() {
-    _googleSignin.signOut();
-    _firebaseAuth.signOut();
+  void signOut() async {
+    await Future.wait([
+      _googleSignin.signOut(),
+      _firebaseAuth.signOut(),
+    ]);
 
     log('HomuraAuth:Logged out');
   }
