@@ -50,6 +50,7 @@ class HomuraAuth {
         name,
         firebaseAuthInstance: firebaseAuthInstance,
         googleSignIn: googleSignIn,
+        authServer: authServer,
       );
     }
   }
