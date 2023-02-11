@@ -36,5 +36,8 @@ enum HomuraError {
   facebookSigninConfigInitializeFailed,
   unknown,
 
+  homuraAuthNameEmpty,
+  homuraAuthNameDisallowed,
+
   notReadyYet,
 }

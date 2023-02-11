@@ -19,13 +19,20 @@ class HomuraAuthEntity {
   /// if currentUser's email is verified or not
   bool get verified => currentUser != null && currentUser!.emailVerified;
 
+  /// name of HomuraAuthEntity
+  String get name => _name;
+
   FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   GoogleSignIn _googleSignin = GoogleSignIn();
 
-  HomuraAuthEntity({
+  late String _name;
+
+  HomuraAuthEntity(
+    String name, {
     FirebaseAuth? firebaseAuthInstance,
     GoogleSignIn? googleSignIn,
   }) {
+    _name = name;
     _firebaseAuth = firebaseAuthInstance ?? _firebaseAuth;
     _googleSignin = googleSignIn ?? _googleSignin;
     // TODO: add facebookAuth
