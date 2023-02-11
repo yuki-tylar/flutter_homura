@@ -32,12 +32,17 @@ class HomuraAuth {
     // GoogleSigninConfig? googleSigninConfig,
     // FacebookSigninConfig? facebookSigninConfig,
     bool isDefault = false,
+    String? authServer,
   }) {
     name = isDefault ? _defaultEntityName : name;
     if (name == null) throw HomuraError.homuraAuthNameEmpty;
 
     if (name == _defaultEntityName && !isDefault) {
       throw HomuraError.homuraAuthNameDisallowed;
+    }
+
+    if (isDefault && authServer == null) {
+      throw HomuraError.homuraAuthInitializeFailed;
     }
 
     if (!_entities.containsKey(name)) {

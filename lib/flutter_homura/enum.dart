@@ -38,6 +38,7 @@ enum HomuraError {
 
   homuraAuthNameEmpty,
   homuraAuthNameDisallowed,
+  homuraAuthInitializeFailed,
 
   notReadyYet,
 }

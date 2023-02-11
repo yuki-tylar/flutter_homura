@@ -22,17 +22,23 @@ class HomuraAuthEntity {
   /// name of HomuraAuthEntity
   String get name => _name;
 
+  /// uri to entry point of authserver
+  String get authServer => _authServer;
+
   FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   GoogleSignIn _googleSignin = GoogleSignIn();
 
   late String _name;
+  late String _authServer;
 
   HomuraAuthEntity(
     String name, {
     FirebaseAuth? firebaseAuthInstance,
     GoogleSignIn? googleSignIn,
+    String? authServer,
   }) {
     _name = name;
+    _authServer = authServer ?? '';
     _firebaseAuth = firebaseAuthInstance ?? _firebaseAuth;
     _googleSignin = googleSignIn ?? _googleSignin;
     // TODO: add facebookAuth
