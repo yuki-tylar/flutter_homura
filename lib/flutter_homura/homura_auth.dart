@@ -12,6 +12,9 @@ class HomuraAuth {
 
   HomuraAuthEntity get entity => entityOf('Default');
 
+  Iterable<HomuraAuthEntity> get entities => _entities.values;
+  Iterable<String> get entityNames => _entities.keys;
+
   HomuraAuthEntity entityOf(String name) {
     if (!_entities.containsKey(name)) {
       throw HomuraError.notReadyYet;
