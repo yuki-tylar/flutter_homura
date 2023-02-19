@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:homura/flutter_homura/enum.dart';
 import 'package:http/http.dart' as http;
@@ -114,6 +115,9 @@ class HomuraAuthEntity {
           var credential = await _loginToGoogle();
           await _firebaseAuth.signInWithCredential(credential);
         } catch (error) {
+          debugPrint(error.toString());
+          log('Failed at HomuraAuth.signInWith.google. '
+              'Please see error message above.');
           throw HomuraError.googleLoginFailed;
         }
         break;
@@ -188,6 +192,9 @@ class HomuraAuthEntity {
     } on HomuraError catch (_) {
       rethrow;
     } catch (error) {
+      debugPrint(error.toString());
+      log('Failed at HomuraAuth.connectTo. '
+          'Please see error message above.');
       throw HomuraError.connectFailed;
     }
   }
@@ -304,10 +311,9 @@ class HomuraAuthEntity {
     try {
       account = await _googleSignin.signIn();
     } catch (error) {
-      log(
-        "Failed at HomuraAuth._loginToGoogle",
-        error: error,
-      );
+      debugPrint(error.toString());
+      log("Failed at HomuraAuth._loginToGoogle. "
+          "Please see error message above.");
       throw (HomuraError.googleLoginFailed);
     }
 
